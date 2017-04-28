@@ -1,0 +1,102 @@
+
+==============Start hsqldb======================
+
+Start/Run your HSQLDB server with the following arguments:
+--database.0 file:UserApp
+--dbname.0 UserAppDB
+# pass these arguments as below if you are starting HSQLDB server from command prompt(go to the hsqldb jar location and submit below):
+
+java -cp hsqldb-2.3.1.jar org.hsqldb.server.Server --database.0 file:UserApp --dbname.0 UserAppDB
+
+if you are running from eclipse, pass the arguments as below and right click on hsqldb jar and run as JavaApplication and select the above class
+
+--database.0 file:UserApp
+--dbname.0 UserAppDB
+
+===============Run Database Manager=================================
+ to access the hsqldb database manager:
+
+from cmd prompt:
+java -cp hsqldb-2.3.1.jar org.hsqldb.util.DatabaseManager
+
+from eclipse:
+right click on hsqldb jar and run as JavaApplication and select the above class
+
+Configurations:
+        <property name="hibernate.connection.username">sa</property>    
+        <property name="hibernate.connection.password"></property>    
+        <property name="hibernate.connection.url">jdbc:hsqldb:hsql://localhost/UserAppDB</property>
+
+
+===============Run Database Manager Swing=================================
+
+to access the hsqldb database manager Swing app:
+
+from cmd prompt:
+java -cp hsqldb-2.3.1.jar org.hsqldb.util.DatabaseManagerSwing
+
+from eclipse:
+right click on hsqldb jar and run as JavaApplication and select the above class
+
+Configurations:
+        <property name="hibernate.connection.username">sa</property>    
+        <property name="hibernate.connection.password"></property>    
+        <property name="hibernate.connection.url">jdbc:hsqldb:hsql://localhost/UserAppDB</property>
+
+Please note that, its in memory db, we are creating the schema each time application is loaded or first accessed
+============================================================================
+
+
+=============================================Its time to run the Application==============================================
+
+===========================Exception handling is the nice thing here for customized messages==============================
+
+===========================Validation part needs to be enhanced(this application is build with minimal validations)==============================
+
+http://localhost:8080/UserMgmtCRUDRestServices/
+
+
+1. Create User(POST method): http://localhost:8080/UserMgmtCRUDRestServices/user/ 
+2. Get the user by id(GET method): http://localhost:8080/UserMgmtCRUDRestServices/user/{id} 
+3. Get All Users(GET method): http://localhost:8080/UserMgmtCRUDRestServices/user/ 
+4. updateUser(PUT method): http://localhost:8080/UserMgmtCRUDRestServices/user/
+
+1 Create User:(POST method, in POSTMAN or any other tools fire the REST API)
+http://localhost:8080/UserMgmtCRUDRestServices/user/
+
+Request body: (User Id will be from DB side and auto incremented)
+
+{
+    "firstName": "Mohammed Shafak",
+    "middleName": "",
+    "lastName": "Shaik",
+    "age": 32,
+    "userGender":"M",
+    "phoneNumber":1234567890,
+    "zipCode": 60169
+}
+
+2 Get User by Id.(GET http://localhost:8080/UserMgmtCRUDRestServices/user/1)
+	Returns the user by given id, if not present 404 with message "User with id: " + id +" not present"
+	
+
+3. Get All Users:(GET http://localhost:8080/UserMgmtCRUDRestServices/user/)
+If users are not present in the DB, 404 with message "No User Present, create users first"(you can see under json raw format)
+else, you get list of user present in the db.
+
+
+4. updateUser(PUT http://localhost:8080/UserMgmtCRUDRestServices/user/1)
+	Updates the user by given id and details, if not present 404 with message "User with id: " + id +" not present"
+	
+Ex: updating middle name as below: request body.
+	
+	{
+	"userId": 1,
+    "firstName": "Mohammed Shafak",
+    "middleName": "S",
+    "lastName": "Shaik",
+    "age": 32,
+    "userGender":"M",
+    "phoneNumber":1234567890,
+    "zipCode": 60169
+  }
